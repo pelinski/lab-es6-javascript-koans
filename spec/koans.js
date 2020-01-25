@@ -375,7 +375,9 @@ describe('arrow functions. ', () => {
 
     getFunction() {
       return () => {
-        return new LexicallyBound(); /*changes might go here*/
+        //return new LexicallyBound(); /*changes might go here*/
+        return this
+        //?? me parece q si creas un nuevo LexicallyBound no es igual que el anterior
       };
     }
 
@@ -390,16 +392,16 @@ describe('arrow functions. ', () => {
       let bound = new LexicallyBound();
       let fn = bound.getFunction();
 
-      //expect(fn()).toBe(bound);       //????????????????????
+      expect(fn()).toBe(bound);      
     });
 
     it('can NOT bind a different context', function() {
       let bound = new LexicallyBound();
       let fn = bound.getFunction();
       let anotherObj = {};
-      let expected = anotherObj; //change this
-
-      //expect(fn.call(anotherObj)).toBe(expected);   // ??????????????
+      //let expected = anotherObj; //change this
+      let expected = bound;
+      expect(fn.call(anotherObj)).toBe(expected); 
     });
 
     it('`arguments` doesnt work inside arrow functions', function() {
